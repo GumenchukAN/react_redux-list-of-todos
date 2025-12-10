@@ -32,11 +32,15 @@ export const TodoList: React.FC = () => {
   }
 
   const handleCurrentTodo = (todo: Todo) => {
-    dispatch(setCurrentTodo(todo));
-
-    getUser(todo.userId).then(currentUser => {
-      dispatch(setCurrentUser(currentUser));
-    });
+    if (currentTodo?.id === todo.id) {
+      dispatch(setCurrentTodo(null));
+      dispatch(setCurrentUser(null));
+    } else {
+      dispatch(setCurrentTodo(todo));
+      getUser(todo.userId).then(currentUser => {
+        dispatch(setCurrentUser(currentUser));
+      });
+    }
   };
 
   return (
